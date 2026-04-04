@@ -51,7 +51,7 @@
             width: 100%; height: 100vh;
             display: flex; justify-content: center; align-items: center;
             position: fixed; z-index: 2000;
-            background: rgba(0,0,0,0.5);
+            background: radial-gradient(circle, var(--champagne) 0%, var(--off-white) 100%);
             transition: opacity 1s ease;
         }
         .bonheur-royale-regular {
@@ -66,55 +66,84 @@
             width: 320px; height: 220px;
             background: var(--primary-gold);
             cursor: pointer;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
         }
+
+        .envelope:hover { transform: translateY(-5px); }
 
         .flap {
-            position: absolute; width: 0; height: 0;
-            border-style: solid; transition: transform 0.8s ease;
-        }
-
-        .flap.top {
-            top: 0; left: 0;
+            position: absolute; top: 0; left: 0;
+            width: 0; height: 0;
+            border-style: solid;
             border-width: 110px 160px 0 160px;
             border-color: #b57e0f transparent transparent transparent; /* Darker gold */
             z-index: 4; transform-origin: top;
+            transition: transform 0.6s ease;
+            backface-visibility: hidden;
         }
 
-        .flap.bottom {
-            bottom: 0; left: 0;
+        .front {
+            position: absolute; bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-style: solid;
             border-width: 0 160px 120px 160px;
             border-color: transparent transparent var(--primary-gold) transparent;
             z-index: 3;
         }
 
-        .flap.left {
-            top: 0; left: 0;
+        .front-left {
+            position: absolute; top: 0; left: 0;
+            width: 0; height: 0;
+            border-style: solid;
             border-width: 110px 0 110px 160px;
             border-color: transparent transparent transparent var(--gold-light);
             z-index: 3;
         }
 
-        .flap.right {
-            top: 0; right: 0;
+        .front-right {
+            position: absolute; top: 0; right: 0;
+            width: 0; height: 0;
+            border-style: solid;
             border-width: 110px 160px 110px 0;
             border-color: transparent var(--gold-light) transparent transparent;
             z-index: 3;
         }
 
         .letter {
-            position: absolute; top: 10px; left: 15px;
+            position: absolute; bottom: 10px; left: 15px;
             width: 290px; height: 200px;
-            background: var(--champagne);
-            z-index: 2; display: flex; justify-content: center; align-items: center;
-            transition: transform 1s 0.8s ease;
+            background: #fff;
+            z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 1.2s ease, height 1.0s 1.5s ease;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            padding: 10px; text-align: center;
+            padding: 20px; text-align: center;
+            overflow: hidden;
+            border: 1px solid var(--champagne);
+        }
+
+        .letter img {
+            max-width: 150px; opacity: 0;
+            transition: opacity 0.8s 2s ease;
+        }
+
+        .letter p {
+            opacity: 0;
+            transition: opacity 0.8s 2.3s ease;
+            margin-top: 15px;
         }
 
         /* Apertura */
-        .envelope.open .flap.top { transform: rotateX(180deg); z-index: 1; }
-        .envelope.open .letter { transform: translateY(-160px) scale(1.1); }
+        .envelope.open .flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope.open .letter { 
+            transform: translateY(-130px); 
+            height: 380px; /* Desdoblada */
+            z-index: 5; /* Pasa al frente al salir */
+        }
+        .envelope.open .letter img, .envelope.open .letter p {
+            opacity: 1;
+        }
 
         /* --- CONTENIDO DE LA WEB --- */
         #main-content {
@@ -140,10 +169,10 @@
             line-height: 1;
         }
 
-        h1, h2 { font-family: var(--font-display); font-weight: 700; color: var(--primary-gold); }
-        h3 { font-family: var(--font-display); font-weight: 600; color: var(--primary-gold); }
+        h1, h2 { font-family: var(--font-display); font-weight: 700; color: var(--primary-gold); font-size: 2.8rem; margin: 20px 0; }
+        h3 { font-family: var(--font-display); font-weight: 600; color: var(--primary-gold); font-size: 2.2rem; margin: 15px 0; }
 
-        p { font-family: var(--font-body); font-size: 1.1rem; color: #444; line-height: 1.6; }
+        p { font-family: var(--font-body); font-size: 1.1rem; color: #444; line-height: 1.6; margin: 10px 0; }
 
         .section-card {
             margin: 50px 0;
@@ -157,7 +186,7 @@
             flex-wrap: wrap; margin-top: 30px;
         }
         .itinerary-item { margin: 15px; min-width: 200px; }
-        .itinerary-item h3 { font-family: var(--font-display); font-size: 2.5rem; color: var(--primary-gold); margin: 0; }
+        .itinerary-item h3 { font-family: var(--font-display); font-size: 2.2rem; color: var(--primary-gold); margin: 0; }
 
         .countdown { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
         .time-box {
@@ -187,7 +216,10 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 600px) {
-            .cursive { font-size: 4rem; }
+            .cursive { font-size: 3.5rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.8rem; }
+            .accent-font { font-size: 2.5rem; }
             .envelope { width: 280px; height: 190px; }
             .flap.top, .flap.bottom { border-width: 95px 140px; }
             .flap.left, .flap.right { border-width: 95px 140px; }
@@ -201,7 +233,7 @@
         }
         .accent-font {
             font-family: var(--font-accent);
-            font-size: 3.5rem;
+            font-size: 3rem;
         }
     </style>
 </head>
@@ -210,12 +242,13 @@
 
     <div class="stage" id="stage">
         <div class="envelope" id="env" onclick="startReveal()">
-            <div class="flap top"></div>
-            <div class="flap left"></div>
-            <div class="flap right"></div>
-            <div class="flap bottom"></div>
+            <div class="flap"></div>
+            <div class="front"></div>
+            <div class="front-left"></div>
+            <div class="front-right"></div>
             <div class="letter">
-                <p class="accent-font" style="color: var(--primary-gold);">Tengo un mensaje para ti...</p>
+                <img src="img/LOGO_OK.png" alt="Logo">
+                <p class="accent-font" style="color: var(--primary-gold); font-size: 2rem;">¡Bienvenido a mi cuento!</p>
             </div>
         </div>
     </div>
@@ -226,13 +259,16 @@
         </div>
 
         <div class="section-card reveal">
-            <p style="font-style: italic;font-size: 2.5rem;">
+            <p style="font-style: italic; font-size: 1.8rem; color: var(--primary-gold);">
                 "Hay momentos que se sienten como un cuento... y el mío está por comenzar. <br>¡Acompáñame!"
+            </p>
+            <p style="margin-top: 20px; font-size: 1.3rem; font-weight: 600;">
+                Tengo el gran honor de invitarte a celebrar conmigo este día tan especial, donde mis sueños comienzan a hacerse realidad.
             </p>
         </div>
 
         <div class="reveal">
-            <h2 style="font-size: 3.5rem; margin-bottom: 30px;">Falta muy poco</h2>
+            <h2 style="margin-bottom: 20px;">Falta muy poco</h2>
             <div class="countdown" id="reloj">
                 <div class="time-box"><span id="days">00</span><small>Días</small></div>
                 <div class="time-box"><span id="hours">00</span><small>Hrs</small></div>
@@ -241,8 +277,8 @@
         </div>
 
         <div class="section-card reveal">
-            <h2 style="font-size: 3.5rem;">Cuándo & Dónde</h2>
-            <p style="font-size: 2.6rem; color: var(--blue-primary); font-weight: 600; font-family: var(--font-display);">01 de Mayo de 2026</p>
+            <h2>Cuándo & Dónde</h2>
+            <p style="font-size: 2rem; color: var(--blue-primary); font-weight: 600; font-family: var(--font-display); margin-bottom: 5px;">01 de Mayo de 2026</p>
             
             <div class="itinerary">
                 <div class="itinerary-item">
@@ -266,17 +302,17 @@
         </div>
 
         <div class="section-card reveal">
-            <h3 style="font-size: 3.5rem;">Código de Vestimenta</h3>
-            <p style="font-size: 2.2rem; font-weight: 600; font-family: var(--font-display);">Formal</p>
-            <p style="font-size: 1.8rem;">Se reserva el azul celeste para la quinceañera</p>
+            <h3>Código de Vestimenta</h3>
+            <p style="font-size: 1.8rem; font-weight: 600; font-family: var(--font-display); color: var(--primary-gold);">Formal</p>
+            <p>Se reserva el azul celeste para la quinceañera</p>
         </div>
         <div class="section-card reveal">
-            <h3 style="font-size: 3.5rem;">Lluvia de Sobres</h3>
-            <p style="font-size: 2.2rem; font-weight: 600; font-family: var(--font-display);">Tu presencia es mi mejor regalo. Si deseas darme un detalle, habrá un cofre en la entrada para tu sobre.</p>
+            <h3>Lluvia de Sobres</h3>
+            <p style="font-size: 1.3rem; font-weight: 600;">Tu presencia es mi mejor regalo. Si deseas darme un detalle, habrá un cofre en la entrada para tu sobre.</p>
         </div>
 
         <div class="btn-group reveal">
-            <a href="https://api.whatsapp.com/send?phone=+529811020629&text=%C2%A1Muchas%20gracias%20por%20la%20invitaci%C3%B3n!%20Confirmo%20mi%20asistencia.%F0%9F%8E%89" 
+            <a href="https://api.whatsapp.com/send?phone=+529811711505&text=%C2%A1Muchas%20gracias%20por%20la%20invitaci%C3%B3n!%20Confirmo%20mi%20asistencia.%F0%9F%8E%89" 
                target="_blank" class="btn btn-wa">
                ✅ CONFIRMAR ASISTENCIA
             </a>
@@ -431,7 +467,7 @@
                     handleReveal(); // Activa las animaciones iniciales
                 }, 100);
             }, 1000);
-        }, 2600);
+        }, 4000);
     }
 
     // Función para el botón flotante (Pausa/Play)
