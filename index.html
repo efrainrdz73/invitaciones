@@ -66,19 +66,19 @@
             width: 320px; height: 220px;
             background: var(--primary-gold);
             cursor: pointer;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             transform-style: preserve-3d;
             transition: transform 0.8s ease;
+            margin: 0 auto;
         }
 
         .envelope:hover { transform: translateY(-5px); }
 
         .flap {
             position: absolute; top: 0; left: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 110px 160px 0 160px;
-            border-color: #b57e0f transparent transparent transparent; /* Darker gold */
+            width: 100%; height: 100%;
+            background: #b57e0f; /* Darker gold */
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
             z-index: 4; transform-origin: top;
             transition: transform 0.6s ease;
             backface-visibility: hidden;
@@ -86,34 +86,31 @@
 
         .front {
             position: absolute; bottom: 0; left: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 0 160px 120px 160px;
-            border-color: transparent transparent var(--primary-gold) transparent;
+            width: 100%; height: 100%;
+            background: var(--primary-gold);
+            clip-path: polygon(0 100%, 50% 50%, 100% 100%);
             z-index: 3;
         }
 
         .front-left {
             position: absolute; top: 0; left: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 110px 0 110px 160px;
-            border-color: transparent transparent transparent var(--gold-light);
+            width: 100%; height: 100%;
+            background: var(--gold-light);
+            clip-path: polygon(0 0, 0 100%, 50% 50%);
             z-index: 3;
         }
 
         .front-right {
             position: absolute; top: 0; right: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 110px 160px 110px 0;
-            border-color: transparent var(--gold-light) transparent transparent;
+            width: 100%; height: 100%;
+            background: var(--gold-light);
+            clip-path: polygon(100% 0, 100% 100%, 50% 50%);
             z-index: 3;
         }
 
         .letter {
-            position: absolute; bottom: 10px; left: 15px;
-            width: 290px; height: 200px;
+            position: absolute; bottom: 5px; left: 5%;
+            width: 90%; height: 200px;
             background: #fff;
             z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: transform 1.2s ease, height 1.0s 1.5s ease;
@@ -175,9 +172,23 @@
         p { font-family: var(--font-body); font-size: 1.1rem; color: #444; line-height: 1.6; margin: 10px 0; }
 
         .section-card {
-            margin: 50px 0;
+            margin: 40px 0;
             padding: 20px;
-            border-bottom: 2px solid var(--champagne);
+            border-bottom: none; /* Quitamos bordes para poner el ornamento */
+        }
+        
+        .section-icon {
+            max-width: 80px;
+            height: auto;
+            margin: 0 auto 15px;
+            display: block;
+        }
+
+        .separator-ornament {
+            max-width: 200px;
+            margin: 20px auto;
+            opacity: 0.7;
+            display: block;
         }
 
         /* Horarios Estilizados */
@@ -220,11 +231,11 @@
             h2 { font-size: 2.2rem; }
             h3 { font-size: 1.8rem; }
             .accent-font { font-size: 2.5rem; }
-            .envelope { width: 280px; height: 190px; }
-            .flap.top, .flap.bottom { border-width: 95px 140px; }
-            .flap.left, .flap.right { border-width: 95px 140px; }
-            .letter { width: 250px; height: 170px; }
+            .envelope { width: 90vw; height: calc(90vw * 220 / 320); }
+            .letter { height: calc(90vw * 200 / 320); }
             #main-content { padding: 40px 15px; width: 92%; }
+            .section-icon { max-width: 60px; }
+            .separator-ornament { max-width: 150px; }
         }
         .italianno-regular {
             font-family: var(--font-display);
@@ -254,9 +265,12 @@
     </div>
 
     <div id="main-content">
-        <div class="reveal">
-            <img src="img/LOGO_OK.png" alt="Logo XV Años" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+        <div class="reveal" style="position: relative; display: inline-block;">
+            <img src="img/XV_DANNA_CORONA.png" alt="Corona" style="max-width: 60px; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); z-index: 5;">
+            <img src="img/LOGO_OK.png" alt="Logo XV Años" style="max-width: 100%; height: auto; margin-bottom: 10px;">
         </div>
+
+        <img src="img/XV_DANNA_ORNAMENTO.png" class="separator-ornament reveal" alt="separador">
 
         <div class="section-card reveal">
             <p style="font-style: italic; font-size: 1.8rem; color: var(--primary-gold);">
@@ -268,6 +282,7 @@
         </div>
 
         <div class="reveal">
+            <img src="img/Reloj720.png" class="section-icon" alt="Reloj">
             <h2 style="margin-bottom: 20px;">Falta muy poco</h2>
             <div class="countdown" id="reloj">
                 <div class="time-box"><span id="days">00</span><small>Días</small></div>
@@ -276,12 +291,15 @@
             </div>
         </div>
 
+        <img src="img/XV_DANNA_ORNAMENTO.png" class="separator-ornament reveal" alt="separador">
+
         <div class="section-card reveal">
             <h2>Cuándo & Dónde</h2>
             <p style="font-size: 2rem; color: var(--blue-primary); font-weight: 600; font-family: var(--font-display); margin-bottom: 5px;">01 de Mayo de 2026</p>
             
             <div class="itinerary">
                 <div class="itinerary-item">
+                    <img src="img/XV_DANNA_PAJARO1.png" class="section-icon" alt="Ceremonia">
                     <h3>Ceremonia</h3>
                     <p>17:00 Horas (05:00 PM)<br>Parroquia San Antonio de Padua, Samulá</p>
                      <div class="map-container">
@@ -289,6 +307,7 @@
                     </div>
                 </div>
                 <div class="itinerary-item">
+                    <img src="img/XV_DANNA_CARROSA.png" class="section-icon" alt="Recepción">
                     <h3>Recepción</h3>
                     <p>20:00 Horas (08:00 PM)<br>Salón Georgina</p>
                      <div class="map-container">
@@ -301,12 +320,19 @@
            
         </div>
 
+        <img src="img/XV_DANNA_ORNAMENTO.png" class="separator-ornament reveal" alt="separador">
+
         <div class="section-card reveal">
+            <img src="img/XV_DANNA_ZAPATILLA.png" class="section-icon" alt="Vestimenta">
             <h3>Código de Vestimenta</h3>
             <p style="font-size: 1.8rem; font-weight: 600; font-family: var(--font-display); color: var(--primary-gold);">Formal</p>
             <p>Se reserva el azul celeste para la quinceañera</p>
         </div>
+        
+        <img src="img/XV_DANNA_ORNAMENTO.png" class="separator-ornament reveal" alt="separador">
+
         <div class="section-card reveal">
+            <img src="img/XV_DANNA_CORONA.png" class="section-icon" alt="Regalo">
             <h3>Lluvia de Sobres</h3>
             <p style="font-size: 1.3rem; font-weight: 600;">Tu presencia es mi mejor regalo. Si deseas darme un detalle, habrá un cofre en la entrada para tu sobre.</p>
         </div>
