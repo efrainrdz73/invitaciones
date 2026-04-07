@@ -18,12 +18,12 @@
             --blue-secondary: #94c4db;
             --off-white: #e8e4e5;
             
-            /* Legacy mappings */
-            --burgundy: #ad002e; /* Keeping a dark accent for contrast if needed */
+            
+            --burgundy: #ad002e; 
             --gold: var(--primary-gold);
             --white: var(--off-white);
 
-            /* Fuentes */
+            
             --font-display: 'Playfair Display', serif;
             --font-accent: 'Great Vibes', cursive;
             --font-body: 'Raleway', sans-serif;
@@ -42,11 +42,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* Below stage (2000) and content, but we'll manage with z-index */
+            z-index: 1;
             pointer-events: none;
         }
 
-        /* --- CONTENEDOR DEL SOBRE --- */
         .stage {
             width: 100%; height: 100vh;
             display: flex; justify-content: center; align-items: center;
@@ -133,18 +132,18 @@
             margin-top: 15px;
         }
 
-        /* Apertura */
+        
         .envelope.open .flap { transform: rotateX(180deg); z-index: 1; }
         .envelope.open .letter { 
             transform: translateY(-130px); 
-            height: 380px; /* Desdoblada */
-            z-index: 5; /* Pasa al frente al salir */
+            height: 380px; 
+            z-index: 5; 
         }
         .envelope.open .letter img, .envelope.open .letter p {
             opacity: 1;
         }
 
-        /* --- CONTENIDO DE LA WEB --- */
+        
         #main-content {
             display: none; opacity: 0;
             max-width: 750px; margin: 20px auto;
@@ -158,7 +157,7 @@
             z-index: 10;
         }
 
-        /* Tipografía Italianno Optimizada */
+        
         .cursive {
             font-family: var(--font-accent);
             color: var(--primary-gold);
@@ -176,7 +175,7 @@
         .section-card {
             margin: 40px 0;
             padding: 20px;
-            border-bottom: none; /* Quitamos bordes para poner el ornamento */
+            border-bottom: none; 
         }
         
         .section-icon {
@@ -193,7 +192,7 @@
             display: block;
         }
 
-        /* Horarios Estilizados */
+        
         .itinerary {
             display: flex; justify-content: space-around;
             flex-wrap: wrap; margin-top: 30px;
@@ -357,13 +356,11 @@
         <p class="reveal accent-font" style="margin-top: 80px; color: var(--primary-gold);">¡Te espero!</p>
     </div>
 <script>
-    // Configuración del Fondo Animado (Canvas)
     window.addEventListener('load', function() {
         const canvas = document.getElementById('background-canvas');
         const ctx = canvas.getContext('2d');
 
         let particles = [];
-        // Lista de imágenes con extensión PNG según requerimiento del usuario
         const imageSources = [
             'img/XV_DANNA_PAJARO1.png',
             'img/XV_DANNA_PAJARO2.png',
@@ -385,7 +382,7 @@
                 checkAllImagesProcessed();
             };
             img.onerror = () => {
-                console.warn("Imagen no encontrada, saltando: " + src);
+                console.warn("Imagen no encontrada: " + src);
                 checkAllImagesProcessed();
             };
         });
@@ -467,20 +464,17 @@
     });
 
     function startReveal() {
-        // 1. Elementos de música y UI
         const music = document.getElementById('background-music');
         const musicBtn = document.getElementById('music-control');
         const env = document.getElementById('env');
         const stage = document.getElementById('stage');
         const main = document.getElementById('main-content');
         
-        // 2. Iniciar reproducción (requiere interacción previa del usuario al dar clic)
         if (music) {
             music.play().catch(e => console.log("Audio play bloqueado: ", e));
-            if (musicBtn) musicBtn.style.display = 'flex'; // Muestra el botón de pausa
+            if (musicBtn) musicBtn.style.display = 'flex'; 
         }
 
-        // 3. Animación de apertura del sobre
         env.classList.add('open');
         
         setTimeout(() => {
@@ -491,32 +485,28 @@
                 window.scrollTo(0, 0);
                 setTimeout(() => {
                     main.style.opacity = '1';
-                    handleReveal(); // Activa las animaciones iniciales
+                    handleReveal();
                 }, 100);
             }, 1000);
         }, 4000);
     }
 
-    // Función para el botón flotante (Pausa/Play)
+    
     function toggleMusic() {
         const music = document.getElementById('background-music');
         const icon = document.getElementById('music-icon');
         if (music.paused) {
             music.play();
-            icon.innerText = '🎵';
         } else {
             music.pause();
-            icon.innerText = '🔇';
         }
     }
 
-    // Reloj Cuenta Regresiva
     const targetDate = new Date("May 01, 2026 17:00:00").getTime();
     setInterval(() => {
         const now = new Date().getTime();
         const gap = targetDate - now;
         
-        // Verificamos que los elementos existan antes de asignar valor
         if (document.getElementById('days')) {
             document.getElementById('days').innerText = Math.floor(gap / (1000 * 60 * 60 * 24));
             document.getElementById('hours').innerText = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -524,7 +514,6 @@
         }
     }, 1000);
 
-    // Animación de aparición al hacer scroll
     function handleReveal() {
         const reveals = document.querySelectorAll(".reveal");
         reveals.forEach(el => {
